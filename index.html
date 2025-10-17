@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini práctica evaluable Héctor</title>
+    <style>
+      .imgAlumno {
+        width: 150px;
+        height: 150px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>PRACTICA JQUERY</h1>
+    <h2>HÉCTOR GIL FUERTES</h2>
+    <select name="selectCurso" id="selectCurso">
+      <option>SELECCIONE CURSO</option>
+    </select>
+    <div id="contenedorInfo"></div>
+
+    <ul id="listaAlumnos"></ul>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        const URL = "https://apiejemplos.azurewebsites.net/api/Alumnos";
+        const requestCursos = "/Cursos";
+        const requestAlumnos = "/FiltrarCurso/";
+
+        $.ajax({
+          url: URL + requestCursos,
+          method: "GET",
+          dataType: "json",
+          success: function (data) {
+            $.each(data, function (index, curso) {
+              $("#selectCurso").append(`<option>${curso}</option>`);
+            });
+          },
+        });
+
+        $("#selectCurso").change(function () {
+          $("#contenedorInfo").empty();
+          $("#listaAlumnos").empty();
+          let idCurso = $(this).val();
+          var html = "";
+          console.log(idCurso);
+          $.ajax({
+            url: URL + requestAlumnos + idCurso,
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+              $.each(data, function (index, alumno) {
+                let button = $("<button>Detalles</button>");
+                let li = $("<li>", { text: alumno.nombre });
+                li.append(button);
+                $("#listaAlumnos").append(li);
+                button.click(function () {
+                  $("#contenedorInfo").empty();
+                  $("#contenedorInfo").append(`<h1>${alumno.nombre}</h1>`);
+                  $("#contenedorInfo").append(
+                    `<h1>IdAlumno: ${alumno.idAlumno}</h1>`
+                  );
+                  $("#contenedorInfo").append(
+                    `<img src="${alumno.imagen}" alt="imgAlumno" class="imgAlumno"/>`
+                  );
+                });
+              });
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
