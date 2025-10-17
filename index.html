@@ -51,7 +51,9 @@
             success: function (data) {
               $.each(data, function (index, alumno) {
                 let button = $("<button>Detalles</button>");
-                let li = $("<li>", { text: alumno.nombre });
+                let li = $("<li>", {
+                  text: alumno.nombre + " " + alumno.apellidos,
+                });
                 li.append(button);
                 $("#listaAlumnos").append(li);
                 button.click(function () {
