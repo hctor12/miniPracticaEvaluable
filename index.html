@@ -56,7 +56,9 @@
                 $("#listaAlumnos").append(li);
                 button.click(function () {
                   $("#contenedorInfo").empty();
-                  $("#contenedorInfo").append(`<h1>${alumno.nombre}</h1>`);
+                  $("#contenedorInfo").append(
+                    `<h1>${alumno.nombre} ${alumno.apellidos}</h1>`
+                  );
                   $("#contenedorInfo").append(
                     `<h1>IdAlumno: ${alumno.idAlumno}</h1>`
                   );
